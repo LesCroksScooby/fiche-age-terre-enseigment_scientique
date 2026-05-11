@@ -14,4 +14,4 @@ La fiche `fiche-age-terre.html` couvre :
 
 ## Utilisation
 
-Ouvrir `fiche-age-terre.html` dans un navigateur. Aucune dépendance externe (HTML/CSS/JS vanilla).
+[Voir la fiche en ligne](https://lescroksscooby.github.io/fiche-age-terre-enseigment_scientique) Aucune dépendance externe (HTML/CSS/JS vanilla).
