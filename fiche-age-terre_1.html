@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche — L'histoire de l'âge de la Terre</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0f1117;
+  --surface: #181b24;
+  --surface2: #1e2230;
+  --border: #2a2e3d;
+  --text: #e2e4ea;
+  --text-dim: #8b8fa3;
+  --accent: #f0a050;
+  --blue: #5b9cf5;
+  --green: #5ec98a;
+  --red: #e8574a;
+  --purple: #a78bfa;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.7;
+  padding: 1rem;
+}
+
+.container { max-width: 820px; margin: 0 auto; }
+
+header {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #1a1e2e 0%, #22273a 100%);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: -40%; left: -20%;
+  width: 60%; height: 180%;
+  background: radial-gradient(ellipse, rgba(240,160,80,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+header h1 { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--accent); margin-bottom: .3rem; }
+header .sub { font-size: .95rem; color: var(--text-dim); }
+header .badge {
+  display: inline-block; margin-top: .8rem; padding: .3rem 1rem;
+  background: rgba(240,160,80,0.12); border: 1px solid rgba(240,160,80,0.25);
+  border-radius: 20px; font-size: .8rem; color: var(--accent); font-weight: 600;
+}
+
+section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.6rem; margin-bottom: 1.5rem;
+}
+section h2 {
+  font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--accent);
+  margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+}
+section h3 { font-size: 1rem; font-weight: 700; color: var(--blue); margin: 1.2rem 0 .5rem; }
+
+p { margin-bottom: .7rem; font-size: .92rem; }
+
+.highlight {
+  background: rgba(240,160,80,0.08); border-left: 3px solid var(--accent);
+  padding: .6rem 1rem; border-radius: 0 8px 8px 0; margin: .8rem 0; font-size: .9rem;
+}
+
+.key { color: var(--accent); font-weight: 600; }
+.person { color: var(--blue); font-weight: 500; }
+
+.keywords { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
+.kw {
+  padding: .3rem .8rem; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; font-size: .82rem; color: var(--purple); font-weight: 500;
+}
+
+/* QUIZ */
+#quiz-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.6rem; margin-bottom: 2rem;
+}
+#quiz-section h2 {
+  font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--accent);
+  margin-bottom: .4rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+}
+.quiz-progress {
+  display: flex; align-items: center; gap: .6rem; margin: 1rem 0;
+  font-size: .82rem; color: var(--text-dim);
+}
+.progress-bar { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width .4s ease; }
+
+.q-card { background: var(--surface2); border-radius: 10px; padding: 1.2rem; margin-bottom: 1rem; }
+.q-card .q-num { font-size: .75rem; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+.q-card .q-text { font-size: .95rem; font-weight: 600; margin-bottom: 1rem; line-height: 1.5; }
+
+.options { display: grid; gap: .5rem; }
+.opt-btn {
+  display: block; width: 100%; text-align: left; padding: .65rem 1rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); font-size: .88rem; cursor: pointer; transition: all .2s;
+  font-family: inherit; line-height: 1.4;
+}
+.opt-btn:hover:not(.locked) { border-color: var(--accent); background: rgba(240,160,80,0.06); }
+.opt-btn.correct { border-color: var(--green); background: rgba(94,201,138,0.1); color: var(--green); }
+.opt-btn.wrong { border-color: var(--red); background: rgba(232,87,74,0.08); color: var(--red); }
+.opt-btn.locked { cursor: default; opacity: .7; }
+.opt-btn.locked.correct { opacity: 1; }
+
+.explanation {
+  margin-top: .8rem; padding: .7rem 1rem; background: rgba(94,201,138,0.06);
+  border-left: 3px solid var(--green); border-radius: 0 8px 8px 0;
+  font-size: .85rem; color: var(--text-dim); display: none;
+}
+.explanation.show { display: block; }
+
+.quiz-result { text-align: center; padding: 2rem 1rem; display: none; }
+.quiz-result .score { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: var(--accent); }
+.quiz-result .label { font-size: .9rem; color: var(--text-dim); margin-bottom: 1rem; }
+.quiz-result .msg { font-size: 1rem; margin-bottom: 1.5rem; }
+
+.btn-restart {
+  padding: .6rem 1.8rem; background: var(--accent); color: var(--bg); border: none;
+  border-radius: 8px; font-weight: 700; font-size: .9rem; cursor: pointer;
+  font-family: inherit; transition: opacity .2s;
+}
+.btn-restart:hover { opacity: .85; }
+
+@media (max-width: 600px) {
+  body { padding: .5rem; }
+  header h1 { font-size: 1.5rem; }
+  section, #quiz-section { padding: 1.1rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>🌍 L'histoire de l'âge de la Terre</h1>
+  <p class="sub">Enseignement scientifique · Chapitre 9</p>
+  <span class="badge">Fiche de révision — Contrôle</span>
+</header>
+
+<section>
+  <h2>1 · Un long chemin vers l'indépendance de la pensée scientifique</h2>
+  <p>Les premières représentations de la Terre reposent sur des <span class="key">mythes et traditions orales</span>, puis sur les <span class="key">écrits religieux</span>.</p>
+  <p>Les religions monothéistes majeures attribuent la naissance de la Terre à un Dieu préexistant → Terre créée <span class="key">~4 000 ans av. J.-C.</span></p>
+  <p>Dès le XVI<sup>e</sup> siècle, l'observation de processus géologiques lents (<span class="key">érosion</span>, <span class="key">sédimentation</span>, accumulation de <span class="key">fossiles</span>) amène les scientifiques à douter.</p>
+  <div class="highlight">→ C'est l'émergence de l'idée des <strong>temps longs</strong>.</div>
+</section>
+
+<section>
+  <h2>2 · De l'intuition des temps longs aux tentatives de quantification</h2>
+
+  <h3>a. Des approches très diversifiées</h3>
+  <p>Au XIX<sup>e</sup> siècle, les approches expérimentales se diversifient :</p>
+  <p>• <span class="key">Temps de refroidissement</span> → <span class="person">Buffon</span> et <span class="person">Kelvin</span></p>
+  <p>• <span class="key">Empilements sédimentaires</span> → géologues comme <span class="person">Lyell</span></p>
+  <p>• <span class="key">Évolution biologique</span> → <span class="person">Darwin</span></p>
+
+  <h3>b. La nécessité de quantifier</h3>
+  <p>La quantification (vitesse d'érosion, dépôt des sédiments) est une étape majeure mais souvent sujette à des erreurs.</p>
+  <p><span class="person">Buffon</span> et <span class="person">Kelvin</span> utilisent des modélisations à partir de données de température, mais leurs modèles <span class="key">ne correspondaient pas à la réalité physique de la Terre</span>.</p>
+  <div class="highlight">Les naturalistes s'accordent sur des durées <strong>&gt; 300 Ma</strong>, sans convaincre les physiciens.</div>
+</section>
+
+<section>
+  <h2>3 · Une révolution : la découverte de la radioactivité</h2>
+  <p>Découverte en <span class="key">1896</span> → nouvelle méthode de datation.</p>
+  <p>La désintégration des <span class="key">noyaux pères</span> en <span class="key">noyaux fils</span> a un rythme <span class="key">constant</span> et spécifique à chaque élément → fonctionne comme une <strong>horloge</strong>.</p>
+  <div class="highlight">
+    <span class="person">Patterson</span> étudie les rapports isotopiques du <strong>plomb</strong> (fils de l'uranium) dans des <strong>météorites</strong> et des roches terrestres. L'alignement des valeurs prouve une même origine. La pente de la droite isochrone donne : <strong style="color:var(--green);font-size:1.05em;">4,57 Ga</strong>.<br>Cet âge fait aujourd'hui <strong>consensus</strong>.
+  </div>
+</section>
+
+<section>
+  <h2>🔑 Mots-clés</h2>
+  <div class="keywords">
+    <span class="kw">temps longs</span>
+    <span class="kw">météorites</span>
+    <span class="kw">4,57 Ga</span>
+    <span class="kw">temps de refroidissement</span>
+    <span class="kw">évolution biologique</span>
+    <span class="kw">vitesse d'érosion</span>
+    <span class="kw">empilements sédimentaires</span>
+    <span class="kw">radioactivité</span>
+    <span class="kw">dépôt des sédiments</span>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz-section">
+  <h2>🧠 Quiz de révision</h2>
+  <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:.5rem;">Questions p.168 + complémentaires</p>
+
+  <div class="quiz-progress">
+    <span id="progress-text">0 / 15</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <span id="score-text">Score : 0</span>
+  </div>
+
+  <div id="quiz-container"></div>
+
+  <div class="quiz-result" id="quiz-result">
+    <div class="score" id="final-score"></div>
+    <div class="label">bonnes réponses</div>
+    <div class="msg" id="final-msg"></div>
+    <button class="btn-restart" onclick="initQuiz()">Recommencer</button>
+  </div>
+</section>
+
+</div>
+
+<script>
+const quizData = [
+  {
+    q: "Les fossiles sont…",
+    opts: ["Des organismes totalement décomposés","Des empreintes ou restes d'êtres vivants conservés dans la roche","Des roches préhistoriques en forme d'animal","Des minéraux radioactifs"],
+    correct: 1, expl: "Un fossile est une empreinte ou un reste d'être vivant disparu, conservé dans la roche."
+  },
+  {
+    q: "Une sphère chaude se refroidit par…",
+    opts: ["Émission de radioactivité","Transfert thermique (conduction, convection, rayonnement)","Absorption d'énergie solaire","Compression gravitationnelle"],
+    correct: 1, expl: "Le refroidissement se fait par transfert thermique, pas par radioactivité."
+  },
+  {
+    q: "Une croyance est…",
+    opts: ["Un savoir validé par la communauté scientifique","Une conviction sans démonstration scientifique","Une hypothèse prouvée par l'expérience","Un résultat de mesure reproductible"],
+    correct: 1, expl: "Une croyance est une conviction personnelle ou collective sans démonstration scientifique."
+  },
+  {
+    q: "Une connaissance scientifique…",
+    opts: ["Ne nécessite pas d'être argumentée","Doit être fondée sur des observations, des mesures et être argumentée","Est forcément vraie et définitive","Repose uniquement sur l'intuition du chercheur"],
+    correct: 1, expl: "Une connaissance scientifique doit être fondée sur des observations, des mesures, et être argumentée."
+  },
+  {
+    q: "La Terre est datée de…",
+    opts: ["4,57 millions d'années","4,57 milliards d'années","4,57 milliers d'années","457 millions d'années"],
+    correct: 1, expl: "L'âge de la Terre est de 4,57 milliards d'années (Ga), pas millions."
+  },
+  {
+    q: "Les récits religieux et les calculs des scientifiques du XXe siècle…",
+    opts: ["Sont en parfait accord","Sont en total désaccord","Donnent des résultats similaires","N'ont aucun rapport entre eux"],
+    correct: 1, expl: "~6 000 ans vs 4,57 Ga → désaccord majeur."
+  },
+  {
+    q: "« La radioactivité des roches produit de la chaleur » est…",
+    opts: ["Une croyance","Une connaissance scientifique","Une opinion","Un mythe"],
+    correct: 1, expl: "C'est une connaissance scientifique : phénomène mesuré, reproductible et quantifié."
+  },
+  {
+    q: "« Le Déluge a couvert la Terre d'un océan » est…",
+    opts: ["Une connaissance scientifique","Une croyance","Un fait prouvé par les géologues","Une théorie validée au XIXe siècle"],
+    correct: 1, expl: "C'est une croyance : interprétation basée sur un texte religieux, sans preuve."
+  },
+  {
+    q: "L'idée des « temps longs » émerge grâce à l'observation de…",
+    opts: ["La radioactivité des roches","Processus géologiques lents : érosion, sédimentation, fossiles","La vitesse de rotation de la Terre","Textes religieux anciens"],
+    correct: 1, expl: "L'érosion, la sédimentation et les fossiles montrent que la Terre est bien plus ancienne."
+  },
+  {
+    q: "Quelles approches ont été utilisées au XIXe siècle ?",
+    opts: ["Temps de refroidissement, empilements sédimentaires, évolution biologique","Radioactivité, magnétisme, sismologie","Analyse des textes religieux uniquement","Observation des étoiles et planètes"],
+    correct: 0, expl: "Les trois approches : refroidissement (Buffon, Kelvin), sédimentation (Lyell), évolution biologique (Darwin)."
+  },
+  {
+    q: "Pourquoi les modèles de Buffon et Kelvin étaient-ils erronés ?",
+    opts: ["Ils ne connaissaient pas le diamètre de la Terre","Leurs modèles ne correspondaient pas à la réalité physique de la Terre","Ils utilisaient des textes religieux","Ils n'avaient pas de thermomètre"],
+    correct: 1, expl: "Leurs modélisations thermiques ne correspondaient pas à la réalité (sources de chaleur interne ignorées)."
+  },
+  {
+    q: "Les naturalistes estimaient la durée de l'histoire terrestre à…",
+    opts: ["Moins de 10 000 ans","Environ 100 000 ans","Plus de 300 millions d'années","Exactement 4,57 Ga"],
+    correct: 2, expl: "Les naturalistes s'accordaient sur des durées > 300 Ma."
+  },
+  {
+    q: "La radioactivité permet la datation car…",
+    opts: ["Elle produit de la lumière mesurable","La désintégration pères → fils a un rythme constant, comme une horloge","Elle modifie la couleur des roches","Elle augmente la masse des roches"],
+    correct: 1, expl: "Le rythme de désintégration est constant et spécifique à chaque élément → horloge naturelle."
+  },
+  {
+    q: "Patterson a déterminé 4,57 Ga en analysant…",
+    opts: ["Des fossiles de dinosaures","Les rapports isotopiques du plomb dans météorites et roches terrestres","Le taux de sédimentation des océans","Le refroidissement du noyau"],
+    correct: 1, expl: "Patterson a étudié les rapports isotopiques du plomb (issu de l'uranium) dans météorites et roches terrestres → droite isochrone → 4,57 Ga."
+  },
+  {
+    q: "L'alignement des valeurs isotopiques entre météorites et roches terrestres prouve…",
+    opts: ["Que la Terre est plus jeune que les météorites","Qu'ils ont une origine commune et un même âge de formation","Que les météorites viennent de la Terre","Que la radioactivité n'existe pas dans l'espace"],
+    correct: 1, expl: "L'alignement sur la droite isochrone prouve une même origine et un même âge : 4,57 Ga."
+  }
+];
+
+let answered = 0, score = 0;
+
+function initQuiz() {
+  answered = 0; score = 0;
+  document.getElementById('quiz-result').style.display = 'none';
+  updateProgress();
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  const shuffled = [...quizData].sort(() => Math.random() - 0.5);
+  shuffled.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.innerHTML = `
+      <div class="q-num">Question ${i+1} / ${shuffled.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts-${i}">
+        ${q.opts.map((o, j) => `<button class="opt-btn" onclick="answer(this,${i},${j},${q.correct})">${o}</button>`).join('')}
+      </div>
+      <div class="explanation" id="expl-${i}">${q.expl}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function answer(btn, qi, oi, correct) {
+  const opts = document.querySelectorAll(`#opts-${qi} .opt-btn`);
+  if(btn.classList.contains('locked')) return;
+  opts.forEach(b => b.classList.add('locked'));
+  if(oi === correct) { btn.classList.add('correct'); score++; }
+  else { btn.classList.add('wrong'); opts[correct].classList.add('correct'); }
+  document.getElementById(`expl-${qi}`).classList.add('show');
+  answered++;
+  updateProgress();
+  if(answered === quizData.length) setTimeout(showResult, 600);
+}
+
+function updateProgress() {
+  document.getElementById('progress-text').textContent = `${answered} / ${quizData.length}`;
+  document.getElementById('progress-fill').style.width = `${(answered/quizData.length)*100}%`;
+  document.getElementById('score-text').textContent = `Score : ${score}`;
+}
+
+function showResult() {
+  const r = document.getElementById('quiz-result');
+  r.style.display = 'block';
+  document.getElementById('final-score').textContent = `${score} / ${quizData.length}`;
+  const pct = score / quizData.length;
+  let msg = pct === 1 ? "Parfait ! Tu maîtrises le chapitre 💪" :
+    pct >= 0.8 ? "Très bien ! Quelques détails à revoir." :
+    pct >= 0.6 ? "Pas mal, mais relis la fiche avant demain." :
+    "Il faut encore réviser, relis la fiche attentivement !";
+  document.getElementById('final-msg').textContent = msg;
+  r.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+initQuiz();
+</script>
+</body>
+</html>

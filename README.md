@@ -1,2 +1,17 @@
-# fiche-age-terre-enseigment_scientique
-Fiche de révision HTML pour le chapitre "L'histoire de l'âge de la Terre" (Enseignement scientifique, Première). Couvre les 3 parties du cours : pensée scientifique vs croyances, tentatives de quantification (Buffon, Kelvin, Darwin), et datation par radioactivité (Patterson, 4.57 Ga). Quiz interactif de 15 questions inclus.
+# 🌍 Fiche de révision — L'histoire de l'âge de la Terre
+
+**Matière** : Enseignement scientifique (Chapitre 9)
+
+## Contenu
+
+La fiche `fiche-age-terre.html` couvre :
+
+1. **L'indépendance de la pensée scientifique** — des mythes religieux à l'émergence des temps longs
+2. **Les tentatives de quantification** — Buffon, Kelvin, Lyell, Darwin et leurs approches
+3. **La radioactivité** — la datation par désintégration U/Pb et l'âge de 4,57 Ga (Patterson)
+4. **Mots-clés** du chapitre
+5. **Quiz interactif** — 15 questions (p.168 + complémentaires), corrigées avec explications
+
+## Utilisation
+
+Ouvrir `fiche-age-terre.html` dans un navigateur. Aucune dépendance externe (HTML/CSS/JS vanilla).
